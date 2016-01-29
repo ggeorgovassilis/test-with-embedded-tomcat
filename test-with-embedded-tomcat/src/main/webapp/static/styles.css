@@ -1,0 +1,49 @@
+.today{
+	background-color:#FCFCFC;
+	padding:0.5em;
+	border:solid silver 2px;
+}
+
+.headline{
+	margin-top:2em;
+}
+
+.headlines{
+	
+}
+
+.stocks{
+	float:right;
+	border-left:solid silver 1px;
+	padding:1em;
+}
+
+.stock .symbol{
+	float:left;
+	color:blue;
+}
+
+.stock{
+	font-family:sans-serif;
+}
+
+.stock .name{
+	float:left;
+}
+
+
+.stock .value{
+	float:left;
+}
+
+.stock .change{
+	float:left;
+}
+
+.stock div{
+	padding-right:0.5em;
+}
+
+.error{
+	color:red;
+}
