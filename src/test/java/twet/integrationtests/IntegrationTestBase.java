@@ -28,7 +28,7 @@ public abstract class IntegrationTestBase {
 
 	@Before
 	public void setupServer() throws Exception {
-//		if (StringUtils.isEmpty(System.getProperty("spring.profiles.active")))
+		if (StringUtils.isEmpty(System.getProperty("spring.profiles.active")))
 			System.setProperty("spring.profiles.active", "integrationtest");
 		String webappDirLocation = "target/test-with-embedded-tomcat-0.0.1-SNAPSHOT";
 		tomcat = new Tomcat();
