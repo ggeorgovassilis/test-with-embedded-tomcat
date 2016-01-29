@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%><!doctype html>
 <html ng-app="twetapp">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <title>TWET News</title>
 <script type="text/javascript" src="static/angular.js"></script>
 <script type="text/javascript" src="static/newscontroller.js"></script>
@@ -15,8 +15,7 @@
 			The weather today
 			<c:out value="${date}" />
 			is warm at
-			<c:out value="${temperature}" />
-			Â°C
+			<c:out value="${temperature}" />°C
 		</div>
 		<form ng-submit="lookupSymbol()" class="stocks" ng-controller="StockController">
 		<input id="stocksymbol" name="stocksymbol" ng-model="symbol" title="Stock symbol"/>

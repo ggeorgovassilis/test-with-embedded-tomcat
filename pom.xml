@@ -12,8 +12,8 @@
 		<slf4j.version>1.7.13</slf4j.version>
 		<tomcat.version>8.0.28</tomcat.version>
 	</properties>
-	
-	
+
+
 	<dependencies>
 
 		<dependency>
@@ -62,7 +62,6 @@
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>2.3.3</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<artifactId>commons-logging</artifactId>
@@ -134,6 +133,15 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
 			<plugin>
 				<!-- Separates the unit tests from the integration tests. -->
 				<groupId>org.apache.maven.plugins</groupId>
