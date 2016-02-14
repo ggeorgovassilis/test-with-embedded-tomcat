@@ -3,8 +3,10 @@ package twet.integrationtests;
 import java.io.File;
 import java.net.URL;
 
+import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.util.descriptor.web.ContextResource;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.experimental.categories.Category;
@@ -21,22 +23,32 @@ public abstract class IntegrationTestBase {
 	public final String WEBAPP_BASE = "/test-with-embedded-tomcat";
 	public final int SERVER_PORT = 7777;
 	public final int TIMEOUT = 30000;
-	public final String baseUrl="http://localhost:"+SERVER_PORT+WEBAPP_BASE;
+	public final String baseUrl="http://localhost:"+SERVER_PORT+WEBAPP_BASE+"/";
 
 	Tomcat tomcat;
 	WebClient webClient;
 
 	@Before
 	public void setupServer() throws Exception {
-		if (StringUtils.isEmpty(System.getProperty("spring.profiles.active")))
-			System.setProperty("spring.profiles.active", "integrationtest");
+		System.setProperty("spring.profiles.active", "integrationtest");
 		String webappDirLocation = "target/test-with-embedded-tomcat-0.0.1-SNAPSHOT";
 		tomcat = new Tomcat();
 		File temp = File.createTempFile("integration-test", ".tmp");
 		tomcat.setBaseDir(temp.getParent());
 		tomcat.setPort(SERVER_PORT);
 		tomcat.enableNaming();
-		tomcat.addWebapp(WEBAPP_BASE, new File(webappDirLocation).getAbsolutePath());
+		Context context = tomcat.addWebapp(WEBAPP_BASE, new File(webappDirLocation).getAbsolutePath());
+		ContextResource resource = new ContextResource();
+		resource.setName("jdbc/twetDataSource");
+		resource.setAuth("Container");
+		resource.setType(javax.sql.DataSource.class.getName());
+		resource.setScope("Sharable");
+		resource.setProperty("driverClassName", "org.hsqldb.jdbc.JDBCDriver");
+		resource.setProperty("url", "jdbc:hsqldb:mem:testdb");
+		context.getNamingResources().addResource(resource);
+		tomcat.getServer().getGlobalNamingResources().addResource(resource);
+
+		
 		tomcat.start();
 	}
 

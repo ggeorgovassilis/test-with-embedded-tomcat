@@ -28,24 +28,19 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
+	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/twetDataSource"
+		expected-type="javax.sql.DataSource" />
+
+
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
 		<property name="persistenceUnitName" value="twet.persistence" />
-		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>
+		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
 	<beans profile="integrationtest">
-		<bean id="dataSource"
-			class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-			<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
-			<property name="url"
-				value="jdbc:hsqldb:mem:integrationtestdb;sql.syntax_mys=true" />
-			<property name="username" value="root" />
-			<property name="password" value="" />
-		</bean>
-
 		<bean id="jpaVendorAdapter"
 			class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 			<property name="generateDdl" value="true" />
@@ -54,13 +49,11 @@
 	</beans>
 
 	<beans profile="production">
-		<jee:jndi-lookup id="dataSource" jndi-name="jdbc/twetDataSource"
-			expected-type="javax.sql.DataSource" />
 		<bean id="jpaVendorAdapter"
 			class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 			<property name="generateDdl" value="true" />
 			<property name="showSql" value="true" />
-			<property name="databasePlatform" value="org.hibernate.dialect.HSQLDialect" />
+			<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
 		</bean>
 
 
