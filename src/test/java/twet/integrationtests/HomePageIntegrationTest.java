@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-@Category(IntegrationTestBase.class)
+//@Category(IntegrationTestBase.class)
 public class HomePageIntegrationTest extends IntegrationTestBase{
 
 	@Test

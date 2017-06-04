@@ -3,12 +3,21 @@ package twet.integrationtests;
 import java.io.File;
 import java.net.URL;
 
+import javax.servlet.ServletContext;
+
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.tomcat.JarScanFilter;
+import org.apache.tomcat.JarScanType;
+import org.apache.tomcat.JarScanner;
+import org.apache.tomcat.JarScannerCallback;
 import org.apache.tomcat.util.descriptor.web.ContextResource;
+import org.apache.tomcat.util.scan.StandardJarScanner;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.experimental.categories.Category;
 
 import com.gargoylesoftware.htmlunit.AlertHandler;
@@ -20,24 +29,44 @@ import com.gargoylesoftware.htmlunit.WebClient;
 
 public abstract class IntegrationTestBase {
 
-	public final String WEBAPP_BASE = "/test-with-embedded-tomcat";
-	public final int SERVER_PORT = 7777;
-	public final int TIMEOUT = 30000;
+	public final static String WEBAPP_BASE = "/test-with-embedded-tomcat";
+	public final static int SERVER_PORT = 7777;
+	public final static int TIMEOUT = 30000;
 	public final String baseUrl="http://localhost:"+SERVER_PORT+WEBAPP_BASE+"/";
 
-	Tomcat tomcat;
+	static Tomcat tomcat;
 	WebClient webClient;
 
-	@Before
-	public void setupServer() throws Exception {
+	@BeforeClass
+	public static void setupServer() throws Exception {
+		// useful only for Spring applications; select an application profile
 		System.setProperty("spring.profiles.active", "integrationtest");
-		String webappDirLocation = "target/test-with-embedded-tomcat-0.0.1-SNAPSHOT";
+		
+		// tell Tomcat where to find the (deployed) application
+		String webappDirLocation = "target/test-with-embedded-tomcat-0.0.2-SNAPSHOT";
 		tomcat = new Tomcat();
+		
+		// give Tomcat a temporary space for its internal workings
 		File temp = File.createTempFile("integration-test", ".tmp");
 		tomcat.setBaseDir(temp.getParent());
 		tomcat.setPort(SERVER_PORT);
-		tomcat.enableNaming();
+		
+		// configure the web application
 		Context context = tomcat.addWebapp(WEBAPP_BASE, new File(webappDirLocation).getAbsolutePath());
+
+		// disable scanning of dependencies introduced by maven
+		StandardJarScanner discardingJarScanner = new StandardJarScanner();
+		discardingJarScanner.setJarScanFilter(new JarScanFilter() {
+			
+			@Override
+			public boolean check(JarScanType jarScanType, String jarName) {
+				return false;
+			}
+		});
+		context.setJarScanner(discardingJarScanner);
+
+		// enable JNDI, e.g. for server-provided data sources
+		tomcat.enableNaming();
 		ContextResource resource = new ContextResource();
 		resource.setName("jdbc/twetDataSource");
 		resource.setAuth("Container");
@@ -76,10 +105,14 @@ public abstract class IntegrationTestBase {
 		webClient.waitForBackgroundJavaScript(TIMEOUT);
 	}
 
-	@After
-	public void after() throws Exception {
+	@AfterClass
+	public static void afterAllTests() throws Exception {
 		tomcat.stop();
 		tomcat.destroy();
+	}
+
+	@After
+	public void afterEachTest() throws Exception {
 		webClient.close();
 	}
 

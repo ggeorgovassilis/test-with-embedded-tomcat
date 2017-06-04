@@ -1,0 +1,51 @@
+
+<plugin>
+	<!-- Separates the unit tests from the integration tests. -->
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-surefire-plugin</artifactId>
+	<version>2.20</version>
+	<configuration>
+		<skip>true</skip>
+		<trimStackTrace>false</trimStackTrace>
+		<configuration>
+			<useSystemClassLoader>${useSystemClassloader}</useSystemClassLoader>
+		</configuration>
+	</configuration>
+	<executions>
+		<execution>
+			<id>unit-tests</id>
+			<phase>test</phase>
+			<goals>
+				<goal>test</goal>
+			</goals>
+			<configuration>
+				<skip>false</skip>
+				<configuration>
+					<useSystemClassLoader>${useSystemClassloader}</useSystemClassLoader>
+				</configuration>
+				<includes>
+					<include>**/*Test.java</include>
+				</includes>
+				<excludes>
+					<exclude>**/integrationtests/*</exclude>
+				</excludes>
+			</configuration>
+		</execution>
+		<execution>
+			<id>integration-tests</id>
+			<phase>integration-test</phase>
+			<goals>
+				<goal>test</goal>
+			</goals>
+			<configuration>
+				<skip>false</skip>
+				<configuration>
+					<useSystemClassLoader>${useSystemClassloader}</useSystemClassLoader>
+				</configuration>
+				<includes>
+					<include>**/integrationtests/*Test.java</include>
+				</includes>
+			</configuration>
+		</execution>
+	</executions>
+</plugin>
