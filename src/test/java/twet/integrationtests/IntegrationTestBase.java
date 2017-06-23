@@ -32,7 +32,7 @@ public abstract class IntegrationTestBase {
 	public final static String WEBAPP_BASE = "/test-with-embedded-tomcat";
 	public final static int SERVER_PORT = 7777;
 	public final static int TIMEOUT = 30000;
-	public final String baseUrl="http://localhost:"+SERVER_PORT+WEBAPP_BASE+"/";
+	public final String baseUrl = "http://localhost:" + SERVER_PORT + WEBAPP_BASE + "/";
 
 	static Tomcat tomcat;
 	WebClient webClient;
@@ -41,26 +41,29 @@ public abstract class IntegrationTestBase {
 	public static void setupServer() throws Exception {
 		// useful only for Spring applications; select an application profile
 		System.setProperty("spring.profiles.active", "integrationtest");
-		
+
 		// tell Tomcat where to find the (deployed) application
 		String webappDirLocation = "target/test-with-embedded-tomcat-0.0.2-SNAPSHOT";
 		tomcat = new Tomcat();
-		
+
 		// give Tomcat a temporary space for its internal workings
-		File temp = File.createTempFile("integration-test", ".tmp");
-		tomcat.setBaseDir(temp.getParent());
+		File temp = File.createTempFile("twet", ".tmp");
+		temp.delete();
+		temp.mkdir();
+		tomcat.setBaseDir(temp.getAbsolutePath());
 		tomcat.setPort(SERVER_PORT);
-		
+
 		// configure the web application
 		Context context = tomcat.addWebapp(WEBAPP_BASE, new File(webappDirLocation).getAbsolutePath());
 
-		// disable scanning of dependencies introduced by maven
+		// disable scanning of dependencies introduced by maven.
+		// you might want to exclude taglib JARs, otherwise tomcat won't load their declarations
 		StandardJarScanner discardingJarScanner = new StandardJarScanner();
 		discardingJarScanner.setJarScanFilter(new JarScanFilter() {
-			
+
 			@Override
 			public boolean check(JarScanType jarScanType, String jarName) {
-				return false;
+				return jarName.contains("jstl-");
 			}
 		});
 		context.setJarScanner(discardingJarScanner);
@@ -77,7 +80,6 @@ public abstract class IntegrationTestBase {
 		context.getNamingResources().addResource(resource);
 		tomcat.getServer().getGlobalNamingResources().addResource(resource);
 
-		
 		tomcat.start();
 	}
 
