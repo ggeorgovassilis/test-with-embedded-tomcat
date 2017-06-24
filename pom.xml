@@ -10,7 +10,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>4.3.8.RELEASE</spring.version>
 		<tomcat.version>8.5.15</tomcat.version>
-		<useSystemClassloader>false</useSystemClassloader>
 	</properties>
 
 
@@ -92,9 +91,7 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
-		</dependency><!-- <dependency> <groupId>org.apache.tomcat.embed</groupId> 
-			<artifactId>tomcat-embed-logging-juli</artifactId> <version>${tomcat.version}</version> 
-			<scope>test</scope> </dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
@@ -135,9 +132,6 @@
 				<configuration>
 					<skip>true</skip>
 					<trimStackTrace>false</trimStackTrace>
-					<configuration>
-						<useSystemClassLoader>${useSystemClassloader}</useSystemClassLoader>
-					</configuration>
 				</configuration>
 				<executions>
 					<execution>
@@ -148,9 +142,6 @@
 						</goals>
 						<configuration>
 							<skip>false</skip>
-							<configuration>
-								<useSystemClassLoader>${useSystemClassloader}</useSystemClassLoader>
-							</configuration>
 							<includes>
 								<include>**/*Test.java</include>
 							</includes>
@@ -167,9 +158,6 @@
 						</goals>
 						<configuration>
 							<skip>false</skip>
-							<configuration>
-								<useSystemClassLoader>${useSystemClassloader}</useSystemClassLoader>
-							</configuration>
 							<includes>
 								<include>**/integrationtests/*Test.java</include>
 							</includes>
