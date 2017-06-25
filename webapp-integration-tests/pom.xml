@@ -1,0 +1,127 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>webapp-integration-tests</artifactId>
+	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>georgovassilis</groupId>
+		<artifactId>test-with-embedded-tomcat</artifactId>
+		<version>0.0.3-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<tomcat.version>8.5.15</tomcat.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<version>${tomcat.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-dbcp</artifactId>
+			<version>${tomcat.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sourceforge.htmlunit</groupId>
+			<artifactId>htmlunit</artifactId>
+			<version>2.18</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<!-- Separates the unit tests from the integration tests. -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.20</version>
+				<configuration>
+					<trimStackTrace>false</trimStackTrace>
+					<skip>true</skip><!-- skip disables the plugin by default -->
+				</configuration>
+				<executions>
+					<execution> <!-- re-enable tests only for the integration-test phase -->
+						<id>integration-tests</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+							<includes>
+								<include>**/integrationtests/*Test.java</include>
+							</includes>
+							<argLine>${jacoco.agent.itArgLine}</argLine>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.9</version>
+				<executions>
+					<execution>
+						<id>jacoco-report</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<!-- <goal>dump</goal> -->
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<includes>
+								<include>twet/**</include>
+							</includes>
+						</configuration>
+					</execution>
+					<execution>
+						<id>prepare-it-test-agent</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<propertyName>jacoco.agent.argLine</propertyName>
+							<append>true</append>
+							<inclNoLocationClasses>true</inclNoLocationClasses>
+							<includes>
+								<include>twet/**</include>
+							</includes>
+							<excludes>
+								<exclude>org/**</exclude>
+								<exclude>com/**</exclude>
+								<exclude>net/**</exclude>
+							</excludes>
+							<propertyName>jacoco.agent.itArgLine</propertyName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

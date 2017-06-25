@@ -1,7 +1,5 @@
 package twet.controllers.news;
 
-import java.io.Serializable;
-
 public class Headline {
 
 	protected int id;

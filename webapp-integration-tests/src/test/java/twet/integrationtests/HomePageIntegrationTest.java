@@ -1,7 +1,6 @@
 package twet.integrationtests;
 
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
