@@ -1,24 +1,17 @@
 package twet.integrationtests;
 
 import java.io.File;
-import java.net.URL;
-
-import javax.servlet.ServletContext;
 
 import org.apache.catalina.Context;
 import org.apache.catalina.startup.Tomcat;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.JarScanFilter;
 import org.apache.tomcat.JarScanType;
-import org.apache.tomcat.JarScanner;
-import org.apache.tomcat.JarScannerCallback;
 import org.apache.tomcat.util.descriptor.web.ContextResource;
 import org.apache.tomcat.util.scan.StandardJarScanner;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.experimental.categories.Category;
 
 import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
@@ -29,7 +22,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 
 public abstract class IntegrationTestBase {
 
-	public final static String WEBAPP_BASE = "/test-with-embedded-tomcat";
+	public final static String WEBAPP_BASE = "/webapp-implementation";
 	public final static int SERVER_PORT = 7777;
 	public final static int TIMEOUT = 30000;
 	public final String baseUrl = "http://localhost:" + SERVER_PORT + WEBAPP_BASE + "/";
@@ -43,7 +36,7 @@ public abstract class IntegrationTestBase {
 		System.setProperty("spring.profiles.active", "integrationtest");
 
 		// tell Tomcat where to find the (deployed) application
-		String webappDirLocation = "target/test-with-embedded-tomcat-0.0.2-SNAPSHOT";
+		String webappDirLocation = "../webapp-implementation/target/webapp-implementation-0.0.3-SNAPSHOT";
 		tomcat = new Tomcat();
 
 		// give Tomcat a temporary space for its internal workings
