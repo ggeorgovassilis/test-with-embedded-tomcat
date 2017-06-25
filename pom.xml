@@ -6,6 +6,8 @@
 	<version>0.0.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+
+	<url>https://github.com/ggeorgovassilis/test-with-embedded-tomcat</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>4.3.8.RELEASE</spring.version>
@@ -36,6 +38,15 @@
 					<configuration>
 						<source>1.8</source>
 						<target>1.8</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-project-info-reports-plugin</artifactId>
+					<version>2.9</version>
+					<configuration>
+						<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+						<offline>true</offline>
 					</configuration>
 				</plugin>
 			</plugins>

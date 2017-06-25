@@ -61,27 +61,11 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.20</version>
 				<configuration>
-					<skip>true</skip>
 					<trimStackTrace>false</trimStackTrace>
+					<skip>true</skip><!-- skip disables the plugin by default -->
 				</configuration>
 				<executions>
-					<execution>
-						<id>unit-tests</id>
-						<phase>test</phase>
-						<goals>
-							<goal>test</goal>
-						</goals>
-						<configuration>
-							<skip>false</skip>
-							<includes>
-								<include>**/*Test.java</include>
-							</includes>
-							<excludes>
-								<exclude>**/integrationtests/*</exclude>
-							</excludes>
-						</configuration>
-					</execution>
-					<execution>
+					<execution> <!-- re-enable tests only for the integration-test phase -->
 						<id>integration-tests</id>
 						<phase>integration-test</phase>
 						<goals>
@@ -92,6 +76,7 @@
 							<includes>
 								<include>**/integrationtests/*Test.java</include>
 							</includes>
+							<argLine>${jacoco.agent.itArgLine}</argLine>
 						</configuration>
 					</execution>
 				</executions>
@@ -102,32 +87,38 @@
 				<version>0.7.9</version>
 				<executions>
 					<execution>
-						<id>prepare-unit-test-agent</id>
-						<configuration>
-							<includes>twet/**</includes>
-						</configuration>
+						<id>jacoco-report</id>
+						<phase>post-integration-test</phase>
 						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-site</id>
-						<phase>verify</phase>
-						<goals>
+							<!-- <goal>dump</goal> -->
 							<goal>report</goal>
 						</goals>
+						<configuration>
+							<includes>
+								<include>twet/**</include>
+							</includes>
+						</configuration>
 					</execution>
 					<execution>
 						<id>prepare-it-test-agent</id>
-						<configuration>
-							<propertyName>jacoco.agent.argLine</propertyName>
-							<destFile>${project.build.directory}/jacoco-reports</destFile>
-							<append>true</append>
-							<includes>twet/**</includes>
-						</configuration>
+						<phase>pre-integration-test</phase>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
+						<configuration>
+							<propertyName>jacoco.agent.argLine</propertyName>
+							<append>true</append>
+							<inclNoLocationClasses>true</inclNoLocationClasses>
+							<includes>
+								<include>twet/**</include>
+							</includes>
+							<excludes>
+								<exclude>org/**</exclude>
+								<exclude>com/**</exclude>
+								<exclude>net/**</exclude>
+							</excludes>
+							<propertyName>jacoco.agent.itArgLine</propertyName>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

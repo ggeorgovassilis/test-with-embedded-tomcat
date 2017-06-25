@@ -102,36 +102,14 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.9</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
 				<executions>
 					<execution>
-						<id>prepare-unit-test-agent</id>
-						<configuration>
-							<includes>twet/**</includes>
-						</configuration>
+						<id>attach-sources</id>
 						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-site</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>prepare-it-test-agent</id>
-						<configuration>
-							<propertyName>jacoco.agent.argLine</propertyName>
-							<destFile>${project.build.directory}/jacoco-reports</destFile>
-							<append>true</append>
-							<includes>twet/**</includes>
-						</configuration>
-						<goals>
-							<goal>prepare-agent</goal>
+							<goal>jar</goal>
 						</goals>
 					</execution>
 				</executions>
