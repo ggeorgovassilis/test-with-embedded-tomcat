@@ -46,7 +46,6 @@
 					<version>2.9</version>
 					<configuration>
 						<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-						<offline>true</offline>
 					</configuration>
 				</plugin>
 			</plugins>
