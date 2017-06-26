@@ -96,7 +96,6 @@
 						<id>jacoco-report</id>
 						<phase>post-integration-test</phase>
 						<goals>
-							<!-- <goal>dump</goal> -->
 							<goal>report-aggregate</goal>
 						</goals>
 						<configuration>
@@ -112,7 +111,6 @@
 							<goal>prepare-agent</goal>
 						</goals>
 						<configuration>
-							<propertyName>jacoco.agent.argLine</propertyName>
 							<append>true</append>
 							<inclNoLocationClasses>true</inclNoLocationClasses>
 							<includes>
