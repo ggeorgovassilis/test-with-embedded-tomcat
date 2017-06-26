@@ -17,6 +17,12 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>georgovassilis</groupId>
+			<artifactId>webapp-implementation</artifactId>
+			<version>${project.version}</version>
+			<classifier>classes</classifier>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
@@ -91,7 +97,7 @@
 						<phase>post-integration-test</phase>
 						<goals>
 							<!-- <goal>dump</goal> -->
-							<goal>report</goal>
+							<goal>report-aggregate</goal>
 						</goals>
 						<configuration>
 							<includes>
