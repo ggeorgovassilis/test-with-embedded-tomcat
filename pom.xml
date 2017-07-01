@@ -14,6 +14,7 @@
 	</properties>
 
 	<modules>
+		<module>application-logic</module>
 		<module>webapp-implementation</module>
 		<module>webapp-integration-tests</module>
 	</modules>
@@ -51,4 +52,16 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<configuration> <!-- don't write links to external dependencies; dependency lookup
+				takes long -->
+					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>

@@ -1,4 +1,4 @@
-# System testing a Java web application
+# Integration-testing a Java web application
 This is the repository for [End-to-end testing Java web applications with an embedded Tomcat](https://blog.georgovassilis.com/2016/01/29/end-to-end-testing-java-web-applications-with-an-embedded-tomcat/) and [Getting test coverage reports for integration test](https://blog.georgovassilis.com/2017/06/23/getting-test-coverage-reports-for-integration-test/)
 which discusses performing end-to-end tests on
 a multi-module Java web application. It runs a simple (yet not trivial) Java web application from within the
@@ -18,3 +18,4 @@ Get a local copy with:
 and run with
 
 ```mvn install```
+

@@ -19,10 +19,21 @@ public class StockQuote implements Serializable{
 	protected double value;
 	
 	@Column
+	protected double valueEur;
+	
+	@Column
 	protected double change;
 
 	public String getSymbol() {
 		return symbol;
+	}
+
+	public double getValueEur() {
+		return valueEur;
+	}
+
+	public void setValueEur(double valueEur) {
+		this.valueEur = valueEur;
 	}
 
 	public void setSymbol(String symbol) {

@@ -1,5 +1,7 @@
 package twet.controllers.stocks;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import twet.controllers.ResourceNotFoundException;
+import twet.currencyconverter.CurrencyConverter;
 import twet.persistence.StockDAO;
 import twet.persistence.StockQuote;
 
@@ -20,8 +23,15 @@ import twet.persistence.StockQuote;
 @RequestMapping("/api/stocks/")
 public class StocksService {
 
-	@Autowired
+	@Resource
 	StockDAO stocks;
+
+	@Resource
+	CurrencyConverter currentyConverter;
+	
+	public void setCurrentyConverter(CurrencyConverter currentyConverter) {
+		this.currentyConverter = currentyConverter;
+	}
 
 	public void setStocks(StockDAO stocks) {
 		this.stocks = stocks;
@@ -32,6 +42,7 @@ public class StocksService {
 		StockQuote stock = stocks.findOne(symbol);
 		if (stock == null)
 			throw new ResourceNotFoundException();
+		stock.setValueEur(currentyConverter.convert(stock.getValue()));
 		return stock;
 	}
 

@@ -23,6 +23,11 @@
 			<classifier>classes</classifier>
 		</dependency>
 		<dependency>
+			<groupId>georgovassilis</groupId>
+			<artifactId>application-logic</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
@@ -93,18 +98,6 @@
 				<version>0.7.9</version>
 				<executions>
 					<execution>
-						<id>jacoco-report</id>
-						<phase>post-integration-test</phase>
-						<goals>
-							<goal>report-aggregate</goal>
-						</goals>
-						<configuration>
-							<includes>
-								<include>twet/**</include>
-							</includes>
-						</configuration>
-					</execution>
-					<execution>
 						<id>prepare-it-test-agent</id>
 						<phase>pre-integration-test</phase>
 						<goals>
@@ -116,12 +109,19 @@
 							<includes>
 								<include>twet/**</include>
 							</includes>
-							<excludes>
-								<exclude>org/**</exclude>
-								<exclude>com/**</exclude>
-								<exclude>net/**</exclude>
-							</excludes>
 							<propertyName>jacoco.agent.itArgLine</propertyName>
+						</configuration>
+					</execution>
+					<execution>
+						<id>jacoco-report</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>report-aggregate</goal>
+						</goals>
+						<configuration>
+							<includes>
+								<include>twet/**</include>
+							</includes>
 						</configuration>
 					</execution>
 				</executions>
