@@ -22,14 +22,11 @@
 			<version>${project.version}</version>
 			<classifier>classes</classifier>
 		</dependency>
-		<dependency>
+		<dependency><!-- dependency needs to be specified, otherwise classes in that
+		module won't show up in the coverage report -->
 			<groupId>georgovassilis</groupId>
 			<artifactId>application-logic</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -67,13 +64,14 @@
 	<build>
 		<plugins>
 			<plugin>
-				<!-- Separates the unit tests from the integration tests. -->
+				<!-- Will do integration tests with surefire. We don't need failsafe here. -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.20</version>
 				<configuration>
 					<trimStackTrace>false</trimStackTrace>
-					<skip>true</skip><!-- skip disables the plugin by default -->
+					<skip>true</skip><!-- skip disables the plugin by default, otherwise it will
+					 run integration tests during the unit test phase. -->
 				</configuration>
 				<executions>
 					<execution> <!-- re-enable tests only for the integration-test phase -->
@@ -109,6 +107,7 @@
 							<includes>
 								<include>twet/**</include>
 							</includes>
+							<!-- pass java agent command line to surefire -->
 							<propertyName>jacoco.agent.itArgLine</propertyName>
 						</configuration>
 					</execution>

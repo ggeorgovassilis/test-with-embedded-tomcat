@@ -10,7 +10,6 @@
 	<url>https://github.com/ggeorgovassilis/test-with-embedded-tomcat</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>4.3.8.RELEASE</spring.version>
 	</properties>
 
 	<modules>
@@ -20,15 +19,6 @@
 	</modules>
 
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-webmvc</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -57,8 +47,8 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<configuration> <!-- don't write links to external dependencies; dependency lookup
-				takes long -->
+				<configuration> <!-- don't write links to external dependencies; dependency lookup takes 
+						long -->
 					<dependencyLocationsEnabled>false</dependencyLocationsEnabled>
 				</configuration>
 			</plugin>
